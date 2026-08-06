@@ -10,7 +10,7 @@ from notify import send_review_email
 
 CHANNEL_URL = "https://www.youtube.com/@TheClarkFamilyCreative"
 RECIPIENTS = ['clarkfamilyband@gmail.com', 'cashclarkemail@gmail.com']
-REVIEW_PAGE_URL = "https://theclarkfamilycreative.github.io/song-list/review.html"
+REVIEW_PAGE_URL = "https://clarkfam5.github.io/song-list/review.html"
 CHECKPOINT_EVERY = 25
 
 

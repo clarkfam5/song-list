@@ -1,6 +1,6 @@
 import { applyReviewAction } from './review-logic.js';
 
-const REPO = 'REPLACE_WITH_GITHUB_USERNAME/song-list';
+const REPO = 'clarkfam5/song-list';
 const BRANCH = 'main';
 
 async function getFile(path, token) {
