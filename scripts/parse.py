@@ -1,7 +1,7 @@
 import re
 
 CREDIT_PATTERN = re.compile(
-    r'[\"“]([^\"”]{2,100})[\"”]\s+by\s+([^.\n,]{2,80})',
+    r'[\"“]([^\"”]{2,100})[\"”]\s+by\s+([^.\n]{2,80})',
     re.IGNORECASE,
 )
 
@@ -11,6 +11,17 @@ CREDIT_PATTERN = re.compile(
 # so they aren't naturally excluded by CREDIT_PATTERN's stop characters.
 ARTIST_TRAILING_CUTOFF = re.compile(
     r'\s+(?:LIVE\b|for our\b|for the\b|from our\b|from the\b)|\s*\(',
+)
+
+# The opposite problem: a "one of our favorites" / "our favorite EVER"
+# style aside sometimes comes BEFORE the real artist name (e.g. "by one
+# of our favorites, Chris Stapleton", "by one of our favorite bands THE
+# WHO!"), usually but not always followed by a comma. CREDIT_PATTERN no
+# longer stops at commas (see above), so this must be stripped from the
+# front of the captured group, leaving whatever name follows it.
+FAVORITE_FILLER_PREFIX = re.compile(
+    r'^(?:one of )?our favorite[s]?(?:\s+bands?)?(?:\s+ever)?,?\s+',
+    re.IGNORECASE,
 )
 
 
@@ -28,7 +39,8 @@ def extract_song_artist(description):
         return None
     match = matches[-1]
     song = match.group(1).strip()
-    artist = match.group(2).strip().rstrip('.').strip()
+    artist = match.group(2).strip().rstrip('.!').strip()
+    artist = FAVORITE_FILLER_PREFIX.sub('', artist, count=1)
     cutoff = ARTIST_TRAILING_CUTOFF.search(artist)
     if cutoff:
         artist = artist[:cutoff.start()].strip()

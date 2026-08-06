@@ -34,9 +34,44 @@ FIXTURE_PARENTHETICAL = (
     'This is Colt Clark and the Quarantine Kids playing, '
     '“American Girl” by Tom Petty and the Heartbreakers (our favorite forever).'
 )
+# Real descriptions where a "one of our favorites" / "our favorite EVER"
+# style aside comes BEFORE the actual artist name, separated by a comma
+# (or, in the THE_WHO case, no punctuation at all) — the opposite problem
+# from the trailing-clause cases above: the real name is what's left
+# over, not what's captured first.
+FIXTURE_FAVORITE_COMMA = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Hard Livin’” by one of our favorites, Chris Stapleton.'
+)
+FIXTURE_FAVORITE_EVER = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Free Fallin’” by our favorite EVER, Tom Petty.'
+)
+FIXTURE_FAVORITE_BAND_NO_COMMA = (
+    'This is Colt Clark and the Quarantine Kids playing '
+    '“Pinball Wizard” by one of our favorite bands THE WHO!'
+)
 
 
 class ExtractSongArtistTest(unittest.TestCase):
+    def test_strips_leading_favorite_filler_before_a_comma(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_FAVORITE_COMMA),
+            ("Hard Livin’", "Chris Stapleton"),
+        )
+
+    def test_strips_leading_favorite_ever_filler(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_FAVORITE_EVER),
+            ("Free Fallin’", "Tom Petty"),
+        )
+
+    def test_strips_leading_favorite_bands_filler_with_no_comma(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_FAVORITE_BAND_NO_COMMA),
+            ("Pinball Wizard", "THE WHO"),
+        )
+
     def test_trims_trailing_clause_with_no_punctuation_before_it(self):
         self.assertEqual(
             extract_song_artist(FIXTURE_ANNIVERSARY),
