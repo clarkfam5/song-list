@@ -10,6 +10,9 @@ EXCLUDED_TITLE_SUBSTRINGS = ('original song',)
 # automatically without also misfiring on legitimate single-song videos.
 EXCLUDED_VIDEO_IDS = {
     '05KH9X4eiUw',  # "DUETS" video covering 3 separate songs
+    'fMfSvxiPy2Y',  # "All For You" and "Run-Around" Mash-Up (2 songs)
+    'NhNASgb2k3c',  # DOUBLE FEATURE: "Running On Empty" and "Take It Easy" (2 songs)
+    'mkDJJFz4yRk',  # Labor Day mashup: "Working in the Coal Mine" and "Workin' for a Livin'" (2 songs)
 }
 
 
