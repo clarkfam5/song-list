@@ -13,9 +13,23 @@ FIXTURE_VLOG = (
     'Hey guys! We had so much fun filming this vlog with the whole '
     'family at the beach today.'
 )
+FIXTURE_MULTIPLE_MENTIONS = (
+    'Last month we covered "Landslide" by Fleetwood Mac and loved it. '
+    'This week, Colt Clark and the Quarantine Kids are playing '
+    '"Ripple" by Grateful Dead.'
+)
 
 
 class ExtractSongArtistTest(unittest.TestCase):
+    def test_uses_the_last_credit_when_multiple_are_mentioned(self):
+        # The actual credit for the video is always the one nearest the
+        # end of the description; earlier passing mentions of other
+        # songs must not win.
+        self.assertEqual(
+            extract_song_artist(FIXTURE_MULTIPLE_MENTIONS),
+            ("Ripple", "Grateful Dead"),
+        )
+
     def test_curly_quotes(self):
         self.assertEqual(
             extract_song_artist(FIXTURE_COUSINS),
