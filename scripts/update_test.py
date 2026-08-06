@@ -30,7 +30,7 @@ class RunTest(unittest.TestCase):
     @patch('update.send_review_email')
     @patch('update.get_video_details')
     @patch('update.list_channel_videos')
-    def test_classifies_new_videos_and_refreshes_views(self, mock_list, mock_details, mock_notify):
+    def test_classifies_new_videos_and_leaves_existing_covers_untouched(self, mock_list, mock_details, mock_notify):
         mock_list.return_value = FLAT_VIDEOS
         mock_details.side_effect = lambda vid: DETAILS_BY_ID[vid]
 
@@ -50,8 +50,11 @@ class RunTest(unittest.TestCase):
             pending = json.load(open(os.path.join(tmp, 'pending.json')))
             state = json.load(open(os.path.join(tmp, 'state.json')))
 
-            self.assertEqual(covers[0]['views'], 999)  # refreshed
+            # The flat channel listing has no view-count data, so existing
+            # covers must be left exactly as they were, not zeroed out.
+            self.assertEqual(covers[0]['views'], 1)
             self.assertEqual([c['id'] for c in covers if c['id'] != 'seen1'], ['new1'])
+            self.assertEqual(covers[1]['views'], 10)  # from get_video_details
             self.assertEqual([p['id'] for p in pending], ['new2'])
             self.assertEqual(sorted(state['processedIds']), ['new1', 'new2', 'seen1'])
             mock_notify.assert_called_once()

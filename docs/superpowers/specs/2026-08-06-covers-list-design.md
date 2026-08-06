@@ -23,7 +23,8 @@ to a `/shorts/` URL or has a very short duration.
 - Song title
 - Original artist/band (not the performing family — see Attribution below)
 - Date recorded (video upload date)
-- View count (refreshed daily)
+- View count (captured when the video is first added — see Update
+  pipeline for why this isn't refreshed afterward)
 - Thumbnail image
 - Link to the YouTube video
 
@@ -52,7 +53,15 @@ scheduling).
    - Confident match → append to the published data file.
    - Ambiguous/unclear → append to a separate pending file, not shown
      on the public page.
-4. Refresh view counts on all previously published entries.
+4. View counts are captured once, at add-time, from the per-video
+   fetch in step 3 — the cheap channel-wide listing used in step 1
+   doesn't include view counts at all (confirmed during
+   implementation), so there's no cheap way to refresh all published
+   entries daily; doing it per-video for the whole list would mean
+   hundreds of extra network calls every day for a channel this size,
+   which isn't worth the time or rate-limit risk. "Most Popular"
+   sorting therefore reflects views as of when each cover was added,
+   not live counts.
 5. If any items are pending, send one email to `clarkfamilyband@gmail.com`
    and `cashclarkemail@gmail.com` with what was found and a link to the
    review page.

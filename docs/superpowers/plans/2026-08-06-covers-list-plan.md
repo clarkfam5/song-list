@@ -1356,3 +1356,43 @@ git push
 In the GitHub repo: Actions tab → "Update covers list" workflow → "Run workflow" (this is the `workflow_dispatch` trigger, for testing without waiting for the 5:30 PM schedule). Confirm: the run succeeds, and if it found nothing new, `data/` shows no diff (expected, since Task 11 already processed everything as of the backfill). Confirm the public page at the Pages URL from Step 2 loads and shows the backfilled covers with working search and sort.
 
 When ready, use `review.html` on the live site (enter the `REVIEW_SECRET` passphrase from Step 7 when prompted) to confirm Publish/Discard actually commit back to `data/covers.json` / `data/pending.json` on GitHub.
+
+---
+
+## Post-implementation notes
+
+Things discovered running this plan against the real channel (823 videos)
+that the code/tests were corrected for — noted here rather than rewriting
+every snippet above, since the actual source is the source of truth:
+
+- **View counts can't be cheaply refreshed.** The plan assumed
+  `list_channel_videos()`'s flat listing would include `view_count` for
+  every entry, letting Task 5's `run()` refresh all existing covers'
+  views on every run in one call. It doesn't — confirmed by inspecting
+  real flat-playlist output, which has no view-related field at all.
+  Refreshing hundreds of covers daily would require one per-video call
+  each, which doesn't scale. Fixed: view count is captured once, from
+  the accurate per-video fetch, when a cover is first added, and never
+  refreshed after. `data/covers.json`'s already-corrupted `views: 0`
+  values (written before this fix, since the flawed refresh zeroed
+  every entry) were repaired with a one-off script re-fetching real
+  counts. Spec §Data fields / §Update pipeline updated to match.
+- **`backfill=True` must not bypass the already-processed check.** The
+  original design used one flag (`force_all`) to both enable
+  pacing/checkpointing *and* skip the dedup check, so re-running after
+  an interruption reprocessed everything instead of resuming. Fixed by
+  splitting the concerns: the flag (renamed `backfill`) only controls
+  pacing/checkpointing/notification suppression; already-processed IDs
+  are always skipped.
+- **Individual videos can be unavailable** (deleted/private/region-
+  locked) — 45 of 823 on this channel. `get_video_details()` raising
+  `subprocess.CalledProcessError` is now caught per-video: the ID is
+  marked processed (so it's not retried forever) and the run continues,
+  instead of the whole pipeline crashing.
+- **Checkpointing/pacing were added to Task 5's `run()`** beyond what
+  the plan specified, once the real channel size (823 videos) made a
+  single uninterrupted 800+-call run impractical: a 1-second delay
+  between per-video fetches during backfill, and saving progress every
+  25 videos so a crash partway through doesn't lose prior work. This is
+  what allowed the backfill to resume cleanly after the two failures
+  above instead of restarting from zero.

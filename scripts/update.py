@@ -34,11 +34,14 @@ def run(data_dir, backfill=False, notify=True):
         save_json(pending_path, pending)
         save_json(state_path, {'processedIds': sorted(processed)})
 
+    # Note: the channel's flat video listing (used below to discover new
+    # videos cheaply) does not include view counts at all — only a
+    # per-video fetch does. View counts are therefore captured once, when
+    # a video is first added, via get_video_details() below, and are not
+    # refreshed afterward (refreshing all covers daily would mean one
+    # per-video network call per cover, which doesn't scale for a
+    # channel this size and isn't worth the rate-limit risk).
     flat_videos = list_channel_videos(CHANNEL_URL)
-    view_counts = {v['id']: v['view_count'] for v in flat_videos}
-    for cover in covers:
-        if cover['id'] in view_counts:
-            cover['views'] = view_counts[cover['id']]
 
     new_pending = []
     for i, video in enumerate(flat_videos):
