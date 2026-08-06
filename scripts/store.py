@@ -3,6 +3,7 @@ import os
 
 SHORT_MAX_SECONDS = 60
 EXCLUDED_TITLE_PREFIXES = ('inside the videos',)
+EXCLUDED_TITLE_SUBSTRINGS = ('original song',)
 
 
 def load_json(path, default):
@@ -39,6 +40,10 @@ def classify_new_video(flat_entry, details, song_artist):
         # These reference an older cover's own "X by Y" credit in their
         # description, which would otherwise false-positive as this
         # video's own credit, so they're excluded before that check runs.
+        return 'excluded', None
+    if any(s in title_lower for s in EXCLUDED_TITLE_SUBSTRINGS):
+        # Original compositions credit the family itself as "artist" in
+        # the description, which reads exactly like a real cover credit.
         return 'excluded', None
 
     base = {

@@ -18,9 +18,43 @@ FIXTURE_MULTIPLE_MENTIONS = (
     'This week, Colt Clark and the Quarantine Kids are playing '
     '"Ripple" by Grateful Dead.'
 )
+# Real descriptions from the channel (found during a full-catalog audit)
+# where trailing text after the artist name has no comma/period before
+# it, so the artist capture must be cut off explicitly rather than
+# relying on punctuation.
+FIXTURE_ANNIVERSARY = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Handle With Care” by the Traveling Wilburys for our 6-year anniversary. 😊'
+)
+FIXTURE_LIVE_SHOW = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Mississippi Queen” by Mountain LIVE from Dollywood’s Harvest Festival.'
+)
+FIXTURE_PARENTHETICAL = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“American Girl” by Tom Petty and the Heartbreakers (our favorite forever).'
+)
 
 
 class ExtractSongArtistTest(unittest.TestCase):
+    def test_trims_trailing_clause_with_no_punctuation_before_it(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_ANNIVERSARY),
+            ("Handle With Care", "the Traveling Wilburys"),
+        )
+
+    def test_trims_trailing_live_show_clause(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_LIVE_SHOW),
+            ("Mississippi Queen", "Mountain"),
+        )
+
+    def test_trims_trailing_parenthetical(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_PARENTHETICAL),
+            ("American Girl", "Tom Petty and the Heartbreakers"),
+        )
+
     def test_uses_the_last_credit_when_multiple_are_mentioned(self):
         # The actual credit for the video is always the one nearest the
         # end of the description; earlier passing mentions of other

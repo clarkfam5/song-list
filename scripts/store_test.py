@@ -58,6 +58,18 @@ class ClassifyNewVideoTest(unittest.TestCase):
         self.assertEqual(bucket, 'excluded')
         self.assertIsNone(entry)
 
+    def test_original_song_is_excluded_even_with_a_credit_match(self):
+        # The channel occasionally posts original compositions, and
+        # credits themselves as the "artist" in the description (e.g.
+        # "playing 'Bad Man in a Good Suit' by Colt Clark and The
+        # Quarantine Kids"), which reads exactly like a real cover
+        # credit. The "ORIGINAL SONG" title marker is what distinguishes
+        # these from an actual cover.
+        details = dict(DETAILS, title='Colt Clark and the Quarantine Kids play an ORIGINAL SONG, "Bad Man in a Good Suit"')
+        bucket, entry = classify_new_video(FLAT_ENTRY, details, ('Bad Man in a Good Suit', 'Colt Clark and The Quarantine Kids'))
+        self.assertEqual(bucket, 'excluded')
+        self.assertIsNone(entry)
+
     def test_matched_credit_is_a_cover(self):
         bucket, entry = classify_new_video(FLAT_ENTRY, DETAILS, ('A Song', 'An Artist'))
         self.assertEqual(bucket, 'cover')
