@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -69,6 +70,34 @@ class RunTest(unittest.TestCase):
 
             mock_details.assert_not_called()
             mock_notify.assert_not_called()
+
+    @patch('update.send_review_email')
+    @patch('update.get_video_details')
+    @patch('update.list_channel_videos')
+    def test_unavailable_video_is_skipped_not_fatal(self, mock_list, mock_details, mock_notify):
+        mock_list.return_value = FLAT_VIDEOS
+
+        def side_effect(vid):
+            if vid == 'new1':
+                raise subprocess.CalledProcessError(1, ['yt-dlp'])
+            return DETAILS_BY_ID[vid]
+
+        mock_details.side_effect = side_effect
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, 'state.json'), 'w') as f:
+                json.dump({'processedIds': ['seen1']}, f)
+
+            with patch.dict(os.environ, FAKE_SMTP_ENV):
+                run(data_dir=tmp, notify=True)
+
+            covers = json.load(open(os.path.join(tmp, 'covers.json')))
+            pending = json.load(open(os.path.join(tmp, 'pending.json')))
+            state = json.load(open(os.path.join(tmp, 'state.json')))
+
+            self.assertEqual(covers, [])  # new1 failed, never classified
+            self.assertEqual([p['id'] for p in pending], ['new2'])
+            self.assertEqual(sorted(state['processedIds']), ['new1', 'new2', 'seen1'])
 
 
 if __name__ == '__main__':

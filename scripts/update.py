@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import time
 
@@ -38,7 +39,16 @@ def run(data_dir, force_all=False, notify=True):
     for i, video in enumerate(flat_videos):
         if video['id'] in processed and not force_all:
             continue
-        details = get_video_details(video['id'])
+        try:
+            details = get_video_details(video['id'])
+        except subprocess.CalledProcessError:
+            processed.add(video['id'])
+            print(f"Skipping unavailable video: {video['id']}")
+            if force_all:
+                if i % CHECKPOINT_EVERY == 0:
+                    checkpoint()
+                time.sleep(1)
+            continue
         song_artist = extract_song_artist(details['description'])
         bucket, entry = classify_new_video(video, details, song_artist)
         processed.add(video['id'])
