@@ -1,0 +1,28 @@
+name: Update covers list
+
+on:
+  schedule:
+    - cron: '30 21 * * *'  # 21:30 UTC ~= 5:30 PM US Eastern (drifts 1hr across DST)
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install yt-dlp
+      - run: python scripts/update.py
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      - run: |
+          git config user.name "covers-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Update covers list"
+          git push
