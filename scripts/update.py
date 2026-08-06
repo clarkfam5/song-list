@@ -14,7 +14,12 @@ REVIEW_PAGE_URL = "https://theclarkfamilycreative.github.io/song-list/review.htm
 CHECKPOINT_EVERY = 25
 
 
-def run(data_dir, force_all=False, notify=True):
+def run(data_dir, backfill=False, notify=True):
+    """backfill enables pacing/checkpointing/suppressed-notification for
+    processing a large batch of videos in one run. It does not change
+    which videos count as "new" — already-processed IDs are always
+    skipped, so re-running after an interruption resumes rather than
+    reprocessing everything."""
     covers_path = os.path.join(data_dir, 'covers.json')
     pending_path = os.path.join(data_dir, 'pending.json')
     state_path = os.path.join(data_dir, 'state.json')
@@ -37,14 +42,14 @@ def run(data_dir, force_all=False, notify=True):
 
     new_pending = []
     for i, video in enumerate(flat_videos):
-        if video['id'] in processed and not force_all:
+        if video['id'] in processed:
             continue
         try:
             details = get_video_details(video['id'])
         except subprocess.CalledProcessError:
             processed.add(video['id'])
             print(f"Skipping unavailable video: {video['id']}")
-            if force_all:
+            if backfill:
                 if i % CHECKPOINT_EVERY == 0:
                     checkpoint()
                 time.sleep(1)
@@ -57,7 +62,7 @@ def run(data_dir, force_all=False, notify=True):
         elif bucket == 'pending':
             pending.append(entry)
             new_pending.append(entry)
-        if force_all:
+        if backfill:
             if i % CHECKPOINT_EVERY == 0:
                 checkpoint()
             time.sleep(1)
@@ -74,5 +79,5 @@ def run(data_dir, force_all=False, notify=True):
 
 if __name__ == '__main__':
     data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
-    force_all = '--all' in sys.argv
-    run(data_dir=data_dir, force_all=force_all, notify=not force_all)
+    backfill = '--all' in sys.argv
+    run(data_dir=data_dir, backfill=backfill, notify=not backfill)
