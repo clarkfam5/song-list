@@ -70,6 +70,15 @@ class ClassifyNewVideoTest(unittest.TestCase):
         self.assertEqual(bucket, 'excluded')
         self.assertIsNone(entry)
 
+    def test_explicitly_excluded_video_id_is_excluded(self):
+        # A one-off compilation video covering 3 separate songs doesn't
+        # fit the one-video-one-song model; there's no reliable general
+        # pattern for this, so it's excluded by ID.
+        entry = dict(FLAT_ENTRY, id='05KH9X4eiUw')
+        bucket, result = classify_new_video(entry, DETAILS, ('A Song', 'An Artist'))
+        self.assertEqual(bucket, 'excluded')
+        self.assertIsNone(result)
+
     def test_matched_credit_is_a_cover(self):
         bucket, entry = classify_new_video(FLAT_ENTRY, DETAILS, ('A Song', 'An Artist'))
         self.assertEqual(bucket, 'cover')

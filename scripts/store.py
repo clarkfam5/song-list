@@ -4,6 +4,13 @@ import os
 SHORT_MAX_SECONDS = 60
 EXCLUDED_TITLE_PREFIXES = ('inside the videos',)
 EXCLUDED_TITLE_SUBSTRINGS = ('original song',)
+# Individually reviewed one-offs that don't fit the one-video-one-song
+# model (e.g. a compilation covering multiple songs in a single video),
+# where there's no reliable general pattern to detect the case
+# automatically without also misfiring on legitimate single-song videos.
+EXCLUDED_VIDEO_IDS = {
+    '05KH9X4eiUw',  # "DUETS" video covering 3 separate songs
+}
 
 
 def load_json(path, default):
@@ -34,6 +41,8 @@ def classify_new_video(flat_entry, details, song_artist):
     review)."""
     if flat_entry['duration'] and flat_entry['duration'] <= SHORT_MAX_SECONDS:
         return 'short', None
+    if flat_entry['id'] in EXCLUDED_VIDEO_IDS:
+        return 'excluded', None
 
     title_lower = details['title'].strip().lower()
     if title_lower.startswith(EXCLUDED_TITLE_PREFIXES):
