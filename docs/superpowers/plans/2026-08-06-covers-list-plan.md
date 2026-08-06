@@ -833,13 +833,15 @@ test('sortCovers popular sorts by views descending', () => {
 });
 
 test('sortCovers artist sorts alphabetically by artist', () => {
+  // Loudon Wainwright III < Randy Newman < The Beatles
   const result = sortCovers(COVERS, 'artist');
-  assert.deepStrictEqual(result.map(c => c.id), ['3', '1', '2']);
+  assert.deepStrictEqual(result.map(c => c.id), ['2', '3', '1']);
 });
 
 test('sortCovers title sorts alphabetically by song', () => {
+  // The Swimming Song < Two of Us < You've Got a Friend in Me
   const result = sortCovers(COVERS, 'title');
-  assert.deepStrictEqual(result.map(c => c.id), ['1', '2', '3']);
+  assert.deepStrictEqual(result.map(c => c.id), ['2', '1', '3']);
 });
 ```
 
