@@ -78,7 +78,7 @@
     "thumbnail": "https://img.youtube.com/vi/VbN-glNnhJ8/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=VbN-glNnhJ8",
     "song": "Take Me Home Country Roads",
-    "artist": "John Denver!"
+    "artist": "John Denver"
   },
   {
     "id": "XjPjUE2-9I8",
@@ -114,7 +114,7 @@
     "thumbnail": "https://img.youtube.com/vi/fcuhklb78H4/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=fcuhklb78H4",
     "song": "Simply Irresistible",
-    "artist": "Robert Palmer!"
+    "artist": "Robert Palmer"
   },
   {
     "id": "dfhQxC--a28",
@@ -132,7 +132,7 @@
     "thumbnail": "https://img.youtube.com/vi/1ZV0StadVbo/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=1ZV0StadVbo",
     "song": "Handle With Care",
-    "artist": "the Traveling Wilburys for our 6-year anniversary"
+    "artist": "the Traveling Wilburys"
   },
   {
     "id": "vYs8h6MJx_g",
@@ -213,7 +213,7 @@
     "thumbnail": "https://img.youtube.com/vi/sab0tusPJHs/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=sab0tusPJHs",
     "song": "Last Christmas",
-    "artist": "Wham!"
+    "artist": "Wham"
   },
   {
     "id": "vdtQU7XglgU",
@@ -258,7 +258,7 @@
     "thumbnail": "https://img.youtube.com/vi/SLeIh-m42tM/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=SLeIh-m42tM",
     "song": "Mississippi Queen",
-    "artist": "Mountain LIVE from Dollywood\u2019s Harvest Festival"
+    "artist": "Mountain"
   },
   {
     "id": "rUUduNLkuC4",
@@ -303,7 +303,7 @@
     "thumbnail": "https://img.youtube.com/vi/iqmHao3xI4E/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=iqmHao3xI4E",
     "song": "Walk Away",
-    "artist": "The James Gang LIVE from our 8/26/25 livestream show"
+    "artist": "The James Gang"
   },
   {
     "id": "Oux4f06mdfc",
@@ -366,7 +366,7 @@
     "thumbnail": "https://img.youtube.com/vi/r5J_SXNjYjk/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=r5J_SXNjYjk",
     "song": "Bell Bottom Blues",
-    "artist": "Derek and the Dominos LIVE from our 7/29/25 livestream show"
+    "artist": "Derek and the Dominos"
   },
   {
     "id": "nk3WHe3M7N8",
@@ -429,7 +429,7 @@
     "thumbnail": "https://img.youtube.com/vi/EfhOFBy4bGQ/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=EfhOFBy4bGQ",
     "song": "American Girl",
-    "artist": "Tom Petty and the Heartbreakers (our favorite forever)"
+    "artist": "Tom Petty and the Heartbreakers"
   },
   {
     "id": "0ZrqxKxiJic",
@@ -546,7 +546,7 @@
     "thumbnail": "https://img.youtube.com/vi/AxHBhjSJ7HQ/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=AxHBhjSJ7HQ",
     "song": "Baba O\u2019Riley",
-    "artist": "The Who!"
+    "artist": "The Who"
   },
   {
     "id": "mznpG3D3IJA",
@@ -591,7 +591,7 @@
     "thumbnail": "https://img.youtube.com/vi/WsY8ap3GbcQ/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=WsY8ap3GbcQ",
     "song": "Messin\u2019 with the Kids",
-    "artist": "Junior Wells and Buddy Guy (but we did the Blues Brother\u2019s version)"
+    "artist": "Junior Wells and Buddy Guy"
   },
   {
     "id": "eDTwgTBFkYw",
@@ -987,7 +987,7 @@
     "thumbnail": "https://img.youtube.com/vi/sJy2KObEXO0/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=sJy2KObEXO0",
     "song": "Midnight Rambler",
-    "artist": "the Rolling Stones at Dollywood!"
+    "artist": "the Rolling Stones at Dollywood"
   },
   {
     "id": "yPYbAqfpUtI",
@@ -1132,15 +1132,6 @@
     "url": "https://www.youtube.com/watch?v=z5jMNWpdgl8",
     "song": "The Old Man Down the Road",
     "artist": "John Fogerty"
-  },
-  {
-    "id": "fdKSJFyv1NA",
-    "date": "2024-07-12",
-    "views": 53833,
-    "thumbnail": "https://img.youtube.com/vi/fdKSJFyv1NA/mqdefault.jpg",
-    "url": "https://www.youtube.com/watch?v=fdKSJFyv1NA",
-    "song": "Bad Man in a Good Suit",
-    "artist": "Colt Clark and The Quarantine Kids \ud83d\ude09"
   },
   {
     "id": "I14y3REWsIk",
@@ -1914,7 +1905,7 @@
     "thumbnail": "https://img.youtube.com/vi/ToXuMGYsALM/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=ToXuMGYsALM",
     "song": "A Day in the Life",
-    "artist": "the Beatles!"
+    "artist": "the Beatles"
   },
   {
     "id": "oewuHoLx4LI",
@@ -2085,7 +2076,7 @@
     "thumbnail": "https://img.youtube.com/vi/G2VbOQiyBOE/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=G2VbOQiyBOE",
     "song": "We Got the Beat",
-    "artist": "The Go-Go's!"
+    "artist": "The Go-Go's"
   },
   {
     "id": "gUANHg9yEWA",
@@ -2112,7 +2103,7 @@
     "thumbnail": "https://img.youtube.com/vi/SQ0qXVnJKFk/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=SQ0qXVnJKFk",
     "song": "Photograph",
-    "artist": "Ringo Starr (written with George Harrison)"
+    "artist": "Ringo Starr"
   },
   {
     "id": "4WTNhJK4bOY",
@@ -2220,7 +2211,7 @@
     "thumbnail": "https://img.youtube.com/vi/gjytbagkw0s/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=gjytbagkw0s",
     "song": "Pinball Wizard",
-    "artist": "one of our favorite bands THE WHO!"
+    "artist": "The Who"
   },
   {
     "id": "YlUGr6gPN3A",
@@ -2436,7 +2427,7 @@
     "thumbnail": "https://img.youtube.com/vi/w3-oyS9yHcE/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=w3-oyS9yHcE",
     "song": "Long Legged Guitar Pickin\u2019 Man",
-    "artist": "Johnny Cash and June Carter Cash (written by Carl Perkins)"
+    "artist": "Johnny Cash and June Carter Cash"
   },
   {
     "id": "SKfs8EtGpgU",
@@ -2472,7 +2463,7 @@
     "thumbnail": "https://img.youtube.com/vi/XK0D9pswH30/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=XK0D9pswH30",
     "song": "Mrs. Vanderbilt",
-    "artist": "Wings (Paul McCartney)"
+    "artist": "Wings"
   },
   {
     "id": "vS1v8lmavUA",
@@ -2490,7 +2481,7 @@
     "thumbnail": "https://img.youtube.com/vi/bo2HvfIHHKs/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=bo2HvfIHHKs",
     "song": "I Want Candy",
-    "artist": "Bow Wow Wow (originally by the Strangeloves)"
+    "artist": "Bow Wow Wow"
   },
   {
     "id": "NppwSZMt8Xw",
@@ -2868,7 +2859,7 @@
     "thumbnail": "https://img.youtube.com/vi/m9a8pbvcaUA/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=m9a8pbvcaUA",
     "song": "Rock n Roll Never Forgets",
-    "artist": "Bob Seger (and HAPPY BIRTHDAY to him)!"
+    "artist": "Bob Seger"
   },
   {
     "id": "GsULUGpnrlQ",
@@ -2940,7 +2931,7 @@
     "thumbnail": "https://img.youtube.com/vi/oq4dxftlB2c/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=oq4dxftlB2c",
     "song": "Take on Me",
-    "artist": "A-Ha!"
+    "artist": "A-Ha"
   },
   {
     "id": "K6NesP2RGpc",
@@ -3030,7 +3021,7 @@
     "thumbnail": "https://img.youtube.com/vi/qrS1k376VnM/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=qrS1k376VnM",
     "song": "I\u2019m Only Sleeping",
-    "artist": "the Beatles!"
+    "artist": "the Beatles"
   },
   {
     "id": "ta-g74jtBt0",
@@ -3384,15 +3375,6 @@
     "artist": "Rodney Crowell"
   },
   {
-    "id": "fMfSvxiPy2Y",
-    "date": "2021-11-07",
-    "views": 51651,
-    "thumbnail": "https://img.youtube.com/vi/fMfSvxiPy2Y/mqdefault.jpg",
-    "url": "https://www.youtube.com/watch?v=fMfSvxiPy2Y",
-    "song": "All For You",
-    "artist": "Sister Hazel and \u201cRun-Around\u201d by Blues Traveler"
-  },
-  {
     "id": "D64QLVxHPeY",
     "date": "2021-11-05",
     "views": 331376,
@@ -3534,7 +3516,7 @@
     "thumbnail": "https://img.youtube.com/vi/DJeO4Rmz0sY/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=DJeO4Rmz0sY",
     "song": "Atlantic City",
-    "artist": "Bruce Springsteen (we\u2019re performing The Band\u2019s version)"
+    "artist": "Bruce Springsteen"
   },
   {
     "id": "oAJBfn-E2zU",
@@ -3615,7 +3597,7 @@
     "thumbnail": "https://img.youtube.com/vi/mCZJlw2a07I/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=mCZJlw2a07I",
     "song": "Hard Livin\u2019",
-    "artist": "one of our favorites"
+    "artist": "Chris Stapleton"
   },
   {
     "id": "qAr9dywXYJ8",
@@ -3759,7 +3741,7 @@
     "thumbnail": "https://img.youtube.com/vi/1_kUFBByyO4/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=1_kUFBByyO4",
     "song": "Free Fallin\u2019",
-    "artist": "our favorite EVER"
+    "artist": "Tom Petty"
   },
   {
     "id": "zUKFPdQ0c8k",
@@ -4074,7 +4056,7 @@
     "thumbnail": "https://img.youtube.com/vi/twNviot216A/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=twNviot216A",
     "song": "Ain\u2019t Too Proud to Beg",
-    "artist": "the Temptations (but we covered the Rolling Stones version)"
+    "artist": "the Temptations"
   },
   {
     "id": "_VP0wUIshBg",
@@ -4101,7 +4083,7 @@
     "thumbnail": "https://img.youtube.com/vi/Dp_bm6sEcYU/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=Dp_bm6sEcYU",
     "song": "Before You Accuse Me",
-    "artist": "Bo Diddley covered by CCR"
+    "artist": "Bo Diddley"
   },
   {
     "id": "Ttov97GgBIk",
@@ -4156,15 +4138,6 @@
     "url": "https://www.youtube.com/watch?v=qBXqNzFaCH8",
     "song": "Island in the Sun",
     "artist": "Weezer"
-  },
-  {
-    "id": "NhNASgb2k3c",
-    "date": "2021-04-16",
-    "views": 184627,
-    "thumbnail": "https://img.youtube.com/vi/NhNASgb2k3c/mqdefault.jpg",
-    "url": "https://www.youtube.com/watch?v=NhNASgb2k3c",
-    "song": "Running on Empty",
-    "artist": "Jackson Browne and \u201cTake It Easy\u201d written by Jackson Browne and Glenn Frey"
   },
   {
     "id": "x32yjSjtEZU",
@@ -4263,7 +4236,7 @@
     "thumbnail": "https://img.youtube.com/vi/FO6S6piYQtI/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=FO6S6piYQtI",
     "song": "I\u2019m Down",
-    "artist": "the Beatles!"
+    "artist": "the Beatles"
   },
   {
     "id": "STwclN0xZoI",
@@ -4370,8 +4343,8 @@
     "views": 94645,
     "thumbnail": "https://img.youtube.com/vi/4Z9nUWWJ1nQ/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=4Z9nUWWJ1nQ",
-    "song": "salsa time",
-    "artist": "accident"
+    "song": "Tulsa Time",
+    "artist": "Don Williams"
   },
   {
     "id": "LbGvacclrUw",
@@ -4596,7 +4569,7 @@
     "thumbnail": "https://img.youtube.com/vi/a5u2aE4bZfo/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=a5u2aE4bZfo",
     "song": "Southern Cross",
-    "artist": "Crosby"
+    "artist": "Crosby, Stills and Nash"
   },
   {
     "id": "Tld2U7C3_Ho",
@@ -4605,7 +4578,7 @@
     "thumbnail": "https://img.youtube.com/vi/Tld2U7C3_Ho/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=Tld2U7C3_Ho",
     "song": "I Won\u2019t Back Down",
-    "artist": "our favorite"
+    "artist": "Tom Petty"
   },
   {
     "id": "CMKI15OVui8",
@@ -4731,7 +4704,7 @@
     "thumbnail": "https://img.youtube.com/vi/VpG0oTZ_TTg/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=VpG0oTZ_TTg",
     "song": "Move It On Over",
-    "artist": "Hank Williams (and redone by George Thorogood)"
+    "artist": "Hank Williams"
   },
   {
     "id": "MzUcs4PpnI8",
@@ -4839,7 +4812,7 @@
     "thumbnail": "https://img.youtube.com/vi/K1vELYwoToM/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=K1vELYwoToM",
     "song": "You Don\u2019t Know How It Feels",
-    "artist": "our favorite"
+    "artist": "Tom Petty"
   },
   {
     "id": "hb3Kc9N6PJM",
@@ -4884,7 +4857,7 @@
     "thumbnail": "https://img.youtube.com/vi/2jGy0qjaR7Y/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=2jGy0qjaR7Y",
     "song": "Got to Get You Into My Life",
-    "artist": "THE BEATLES!!!"
+    "artist": "THE BEATLES"
   },
   {
     "id": "VR-HT2tih4c",
@@ -4950,15 +4923,6 @@
     "artist": "the Beatles"
   },
   {
-    "id": "mkDJJFz4yRk",
-    "date": "2020-09-07",
-    "views": 307675,
-    "thumbnail": "https://img.youtube.com/vi/mkDJJFz4yRk/mqdefault.jpg",
-    "url": "https://www.youtube.com/watch?v=mkDJJFz4yRk",
-    "song": "Working in the Coal Mine",
-    "artist": "Lee Dorsey and \u201cWorkin\u2019 for a Livin\u2019\u201d by Huey Lewis and the News"
-  },
-  {
     "id": "pra86d4w1DI",
     "date": "2020-09-06",
     "views": 239094,
@@ -4975,15 +4939,6 @@
     "url": "https://www.youtube.com/watch?v=fENOPMvSCxw",
     "song": "You Can\u2019t Roller Skate in a Buffalo Herd",
     "artist": "Roger Miller"
-  },
-  {
-    "id": "05KH9X4eiUw",
-    "date": "2020-09-03",
-    "views": 258768,
-    "thumbnail": "https://img.youtube.com/vi/05KH9X4eiUw/mqdefault.jpg",
-    "url": "https://www.youtube.com/watch?v=05KH9X4eiUw",
-    "song": "Wish You Were Here",
-    "artist": "Pink Floyd"
   },
   {
     "id": "C777H2pdV5s",
@@ -5028,7 +4983,7 @@
     "thumbnail": "https://img.youtube.com/vi/8R-ORKP3KRI/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=8R-ORKP3KRI",
     "song": "All Together Now",
-    "artist": "the Beatles!"
+    "artist": "the Beatles"
   },
   {
     "id": "brf3nhReab4",
@@ -5757,7 +5712,7 @@
     "thumbnail": "https://img.youtube.com/vi/9lJUt_SeEnk/mqdefault.jpg",
     "url": "https://www.youtube.com/watch?v=9lJUt_SeEnk",
     "song": "Wagon Wheel",
-    "artist": "Old Crow Medicine Show (also Darius Rucker)"
+    "artist": "Old Crow Medicine Show"
   },
   {
     "id": "-I4Jy-EAXiI",
