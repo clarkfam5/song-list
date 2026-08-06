@@ -16,4 +16,21 @@ function applyReviewAction(covers, pending, action) {
   return { covers: covers.concat([published]), pending: newPending };
 }
 
-module.exports = { applyReviewAction };
+// btoa()/atob() only handle Latin1 text, but the data files contain
+// curly quotes, emoji, and other non-Latin1 characters throughout (e.g.
+// song titles with curly apostrophes), so encoding/decoding must go
+// through UTF-8 bytes explicitly rather than passing strings straight in.
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => { binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+
+function base64ToUtf8(b64) {
+  const binary = atob(b64);
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+module.exports = { applyReviewAction, utf8ToBase64, base64ToUtf8 };

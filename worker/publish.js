@@ -1,4 +1,4 @@
-import { applyReviewAction } from './review-logic.js';
+import { applyReviewAction, utf8ToBase64, base64ToUtf8 } from './review-logic.js';
 
 const REPO = 'clarkfam5/song-list';
 const BRANCH = 'main';
@@ -8,7 +8,7 @@ async function getFile(path, token) {
     headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'covers-worker' },
   });
   const json = await res.json();
-  return { content: JSON.parse(atob(json.content)), sha: json.sha };
+  return { content: JSON.parse(base64ToUtf8(json.content)), sha: json.sha };
 }
 
 async function putFile(path, content, sha, token, message) {
@@ -17,7 +17,7 @@ async function putFile(path, content, sha, token, message) {
     headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'covers-worker' },
     body: JSON.stringify({
       message,
-      content: btoa(JSON.stringify(content, null, 2) + '\n'),
+      content: utf8ToBase64(JSON.stringify(content, null, 2) + '\n'),
       sha,
       branch: BRANCH,
     }),
