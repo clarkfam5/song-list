@@ -1396,3 +1396,21 @@ every snippet above, since the actual source is the source of truth:
   25 videos so a crash partway through doesn't lose prior work. This is
   what allowed the backfill to resume cleanly after the two failures
   above instead of restarting from zero.
+- **Task 4 (email notifier) was removed during Task 12.** Sending
+  notifications requires a Gmail app password as a repo secret, which
+  the user didn't want to set up/share. `scripts/notify.py` and its
+  test were deleted, `update.py`'s `notify` parameter and email call
+  were removed, and the workflow no longer references `SMTP_USER`/
+  `SMTP_PASS`. Reviewing pending items now requires checking
+  `review.html` directly rather than being notified.
+- **A full-catalog audit pass** (not in the original plan) was run
+  after the initial backfill, re-fetching all 653 published covers'
+  descriptions and cross-checking song/artist against them. This
+  surfaced several systemic parsing bugs (trailing unpunctuated
+  clauses like "LIVE from...", leading "our favorite..." filler
+  phrases eating the real artist name, one regression where fixing
+  the first bug broke a different case) and a handful of one-off
+  issues (multi-song compilation videos needing exclusion, a
+  description typo, artist-name casing/completeness). See the commit
+  history on `scripts/parse.py` and `scripts/store.py` for the fixes
+  and their regression tests.

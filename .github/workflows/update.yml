@@ -17,9 +17,6 @@ jobs:
           python-version: '3.12'
       - run: pip install yt-dlp
       - run: python scripts/update.py
-        env:
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
       - run: |
           git config user.name "covers-bot"
           git config user.email "actions@github.com"

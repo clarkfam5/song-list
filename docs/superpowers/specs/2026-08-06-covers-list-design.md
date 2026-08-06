@@ -62,11 +62,15 @@ scheduling).
    which isn't worth the time or rate-limit risk. "Most Popular"
    sorting therefore reflects views as of when each cover was added,
    not live counts.
-5. If any items are pending, send one email to `clarkfamilyband@gmail.com`
-   and `cashclarkemail@gmail.com` with what was found and a link to the
-   review page.
-6. Commit updated data file(s) back to the repo; GitHub Pages redeploys
+5. Commit updated data file(s) back to the repo; GitHub Pages redeploys
    automatically.
+
+**Change from original design:** email notification for new pending
+items was dropped — it would have required sharing a Gmail app
+password (via a repo secret), which the user preferred not to do.
+There is no notification when new items land in the review queue;
+checking `review.html` periodically (e.g. after Friday's regular
+upload) is the way to know what's waiting.
 
 `yt-dlp` is a community-maintained scraping tool, not YouTube's official
 API — chosen because it requires no Google Cloud/API-key setup and

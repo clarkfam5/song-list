@@ -5,8 +5,6 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-FAKE_SMTP_ENV = {'SMTP_USER': 'bot@example.com', 'SMTP_PASS': 'app-password'}
-
 from update import run
 
 FLAT_VIDEOS = [
@@ -27,10 +25,9 @@ DETAILS_BY_ID = {
 
 
 class RunTest(unittest.TestCase):
-    @patch('update.send_review_email')
     @patch('update.get_video_details')
     @patch('update.list_channel_videos')
-    def test_classifies_new_videos_and_leaves_existing_covers_untouched(self, mock_list, mock_details, mock_notify):
+    def test_classifies_new_videos_and_leaves_existing_covers_untouched(self, mock_list, mock_details):
         mock_list.return_value = FLAT_VIDEOS
         mock_details.side_effect = lambda vid: DETAILS_BY_ID[vid]
 
@@ -43,8 +40,7 @@ class RunTest(unittest.TestCase):
             with open(os.path.join(tmp, 'state.json'), 'w') as f:
                 json.dump({'processedIds': ['seen1']}, f)
 
-            with patch.dict(os.environ, FAKE_SMTP_ENV):
-                run(data_dir=tmp, notify=True)
+            run(data_dir=tmp)
 
             covers = json.load(open(os.path.join(tmp, 'covers.json')))
             pending = json.load(open(os.path.join(tmp, 'pending.json')))
@@ -57,27 +53,23 @@ class RunTest(unittest.TestCase):
             self.assertEqual(covers[1]['views'], 10)  # from get_video_details
             self.assertEqual([p['id'] for p in pending], ['new2'])
             self.assertEqual(sorted(state['processedIds']), ['new1', 'new2', 'seen1'])
-            mock_notify.assert_called_once()
 
-    @patch('update.send_review_email')
     @patch('update.get_video_details')
     @patch('update.list_channel_videos')
-    def test_already_processed_ids_are_skipped(self, mock_list, mock_details, mock_notify):
+    def test_already_processed_ids_are_skipped(self, mock_list, mock_details):
         mock_list.return_value = FLAT_VIDEOS
 
         with tempfile.TemporaryDirectory() as tmp:
             with open(os.path.join(tmp, 'state.json'), 'w') as f:
                 json.dump({'processedIds': ['seen1', 'new1', 'new2']}, f)
 
-            run(data_dir=tmp, notify=True)
+            run(data_dir=tmp)
 
             mock_details.assert_not_called()
-            mock_notify.assert_not_called()
 
-    @patch('update.send_review_email')
     @patch('update.get_video_details')
     @patch('update.list_channel_videos')
-    def test_unavailable_video_is_skipped_not_fatal(self, mock_list, mock_details, mock_notify):
+    def test_unavailable_video_is_skipped_not_fatal(self, mock_list, mock_details):
         mock_list.return_value = FLAT_VIDEOS
 
         def side_effect(vid):
@@ -91,8 +83,7 @@ class RunTest(unittest.TestCase):
             with open(os.path.join(tmp, 'state.json'), 'w') as f:
                 json.dump({'processedIds': ['seen1']}, f)
 
-            with patch.dict(os.environ, FAKE_SMTP_ENV):
-                run(data_dir=tmp, notify=True)
+            run(data_dir=tmp)
 
             covers = json.load(open(os.path.join(tmp, 'covers.json')))
             pending = json.load(open(os.path.join(tmp, 'pending.json')))
