@@ -16,6 +16,7 @@ function render() {
       <div>
         <strong>${escapeHtml(c.song)}</strong> by ${escapeHtml(c.artist)}<br>
         <span>${escapeHtml(c.date)}</span> &middot;
+        <span>${c.views.toLocaleString()} views</span> &middot;
         <a href="${escapeHtml(c.url)}" target="_blank" rel="noopener">Watch</a>
       </div>
     </div>
