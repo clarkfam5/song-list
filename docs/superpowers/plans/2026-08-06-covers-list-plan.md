@@ -547,6 +547,8 @@ from unittest.mock import patch
 
 from update import run
 
+FAKE_SMTP_ENV = {'SMTP_USER': 'bot@example.com', 'SMTP_PASS': 'app-password'}
+
 FLAT_VIDEOS = [
     {'id': 'seen1', 'title': 'Old Cover', 'view_count': 999, 'duration': 200,
      'url': 'https://www.youtube.com/watch?v=seen1'},
@@ -578,8 +580,16 @@ class RunTest(unittest.TestCase):
                 json.dump([{'id': 'seen1', 'song': 'Old', 'artist': 'X',
                             'date': '2020-01-01', 'views': 1, 'thumbnail': '',
                             'url': ''}], f)
+            # seen1 must be marked processed already, or the pipeline treats
+            # it as new too and tries to fetch details for it.
+            with open(os.path.join(tmp, 'state.json'), 'w') as f:
+                json.dump({'processedIds': ['seen1']}, f)
 
-            run(data_dir=tmp, notify=True)
+            # send_review_email is mocked, but run() still builds its
+            # arguments — including os.environ lookups — before the mock
+            # intercepts the call, so the env vars must exist.
+            with patch.dict(os.environ, FAKE_SMTP_ENV):
+                run(data_dir=tmp, notify=True)
 
             covers = json.load(open(os.path.join(tmp, 'covers.json')))
             pending = json.load(open(os.path.join(tmp, 'pending.json')))
@@ -599,7 +609,7 @@ class RunTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             with open(os.path.join(tmp, 'state.json'), 'w') as f:
-                json.dump({'processedIds': ['new1', 'new2']}, f)
+                json.dump({'processedIds': ['seen1', 'new1', 'new2']}, f)
 
             run(data_dir=tmp, notify=True)
 
