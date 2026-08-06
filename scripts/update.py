@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 from parse import extract_song_artist
 from ytdlp import list_channel_videos, get_video_details
@@ -9,6 +10,7 @@ from notify import send_review_email
 CHANNEL_URL = "https://www.youtube.com/@TheClarkFamilyCreative"
 RECIPIENTS = ['clarkfamilyband@gmail.com', 'cashclarkemail@gmail.com']
 REVIEW_PAGE_URL = "https://theclarkfamilycreative.github.io/song-list/review.html"
+CHECKPOINT_EVERY = 25
 
 
 def run(data_dir, force_all=False, notify=True):
@@ -21,6 +23,11 @@ def run(data_dir, force_all=False, notify=True):
     state = load_json(state_path, {'processedIds': []})
     processed = set(state['processedIds'])
 
+    def checkpoint():
+        save_json(covers_path, covers)
+        save_json(pending_path, pending)
+        save_json(state_path, {'processedIds': sorted(processed)})
+
     flat_videos = list_channel_videos(CHANNEL_URL)
     view_counts = {v['id']: v['view_count'] for v in flat_videos}
     for cover in covers:
@@ -28,7 +35,7 @@ def run(data_dir, force_all=False, notify=True):
             cover['views'] = view_counts[cover['id']]
 
     new_pending = []
-    for video in flat_videos:
+    for i, video in enumerate(flat_videos):
         if video['id'] in processed and not force_all:
             continue
         details = get_video_details(video['id'])
@@ -40,10 +47,12 @@ def run(data_dir, force_all=False, notify=True):
         elif bucket == 'pending':
             pending.append(entry)
             new_pending.append(entry)
+        if force_all:
+            if i % CHECKPOINT_EVERY == 0:
+                checkpoint()
+            time.sleep(1)
 
-    save_json(covers_path, covers)
-    save_json(pending_path, pending)
-    save_json(state_path, {'processedIds': sorted(processed)})
+    checkpoint()
 
     if notify and new_pending:
         send_review_email(
