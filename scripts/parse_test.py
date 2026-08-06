@@ -51,9 +51,33 @@ FIXTURE_FAVORITE_BAND_NO_COMMA = (
     'This is Colt Clark and the Quarantine Kids playing '
     '“Pinball Wizard” by one of our favorite bands THE WHO!'
 )
+# Real descriptions where a comma after the artist name introduces a
+# genuine trailing aside (not a favorite-filler phrase before the name)
+# — these must NOT be swept into the artist, unlike the favorite-filler
+# cases above. Found as regressions while fixing those.
+FIXTURE_TRAILING_ASIDE_COMMA = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Shame on the Moon” by Bob Seger, written by Rodney Crowell.'
+)
+FIXTURE_LIVE_SHOW_COMMA = (
+    'This is Colt Clark and the Quarantine Kids playing, '
+    '“Jet Airliner” by Steve Miller Band, LIVE from our July 29th livestream show!'
+)
 
 
 class ExtractSongArtistTest(unittest.TestCase):
+    def test_does_not_sweep_up_a_genuine_trailing_aside_after_a_comma(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_TRAILING_ASIDE_COMMA),
+            ("Shame on the Moon", "Bob Seger"),
+        )
+
+    def test_stops_at_comma_before_a_live_show_clause_too(self):
+        self.assertEqual(
+            extract_song_artist(FIXTURE_LIVE_SHOW_COMMA),
+            ("Jet Airliner", "Steve Miller Band"),
+        )
+
     def test_strips_leading_favorite_filler_before_a_comma(self):
         self.assertEqual(
             extract_song_artist(FIXTURE_FAVORITE_COMMA),
