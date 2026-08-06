@@ -1,4 +1,4 @@
-const WORKER_URL = 'REPLACE_WITH_DEPLOYED_WORKER_URL';
+const WORKER_URL = 'https://covers-review.clarkfamilyband.workers.dev';
 const SECRET_STORAGE_KEY = 'covers_review_secret';
 
 function getSecret() {
