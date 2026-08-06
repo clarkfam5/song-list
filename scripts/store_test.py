@@ -42,6 +42,22 @@ class ClassifyNewVideoTest(unittest.TestCase):
         self.assertEqual(bucket, 'short')
         self.assertIsNone(entry)
 
+    def test_inside_the_videos_is_excluded_even_with_a_credit_match(self):
+        # "Inside the Videos" episodes discuss an older cover, so their
+        # description often contains that old cover's "X by Y" credit
+        # line, which would otherwise false-positive as this video's own
+        # credit. They must be excluded regardless of what parse.py found.
+        details = dict(DETAILS, title='Inside the Videos: "Downtown Train"')
+        bucket, entry = classify_new_video(FLAT_ENTRY, details, ('Downtown Train', 'Tom Waits'))
+        self.assertEqual(bucket, 'excluded')
+        self.assertIsNone(entry)
+
+    def test_inside_the_videos_match_is_case_insensitive(self):
+        details = dict(DETAILS, title='inside the videos: a look back')
+        bucket, entry = classify_new_video(FLAT_ENTRY, details, None)
+        self.assertEqual(bucket, 'excluded')
+        self.assertIsNone(entry)
+
     def test_matched_credit_is_a_cover(self):
         bucket, entry = classify_new_video(FLAT_ENTRY, DETAILS, ('A Song', 'An Artist'))
         self.assertEqual(bucket, 'cover')

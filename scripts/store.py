@@ -2,6 +2,7 @@ import json
 import os
 
 SHORT_MAX_SECONDS = 60
+EXCLUDED_TITLE_PREFIXES = ('inside the videos',)
 
 
 def load_json(path, default):
@@ -27,10 +28,18 @@ def thumbnail_url(video_id):
 
 def classify_new_video(flat_entry, details, song_artist):
     """Build the entry for a never-before-seen video. Returns
-    (bucket, entry): bucket is "short" (entry=None, dropped),
-    "cover" (confident match), or "pending" (needs human review)."""
+    (bucket, entry): bucket is "short" or "excluded" (entry=None,
+    dropped), "cover" (confident match), or "pending" (needs human
+    review)."""
     if flat_entry['duration'] and flat_entry['duration'] <= SHORT_MAX_SECONDS:
         return 'short', None
+
+    title_lower = details['title'].strip().lower()
+    if title_lower.startswith(EXCLUDED_TITLE_PREFIXES):
+        # These reference an older cover's own "X by Y" credit in their
+        # description, which would otherwise false-positive as this
+        # video's own credit, so they're excluded before that check runs.
+        return 'excluded', None
 
     base = {
         'id': flat_entry['id'],
