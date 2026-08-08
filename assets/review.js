@@ -17,11 +17,20 @@ function escapeHtml(s) {
 }
 
 async function submitAction(action) {
-  await fetch(WORKER_URL, {
+  const res = await fetch(WORKER_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-review-secret': getSecret() },
     body: JSON.stringify(action),
   });
+  if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem(SECRET_STORAGE_KEY);
+      alert('Wrong review secret. Try again — it will ask you to re-enter it.');
+    } else {
+      alert(`Something went wrong (HTTP ${res.status}). Try again.`);
+    }
+    return;
+  }
   location.reload();
 }
 
