@@ -3,6 +3,12 @@ import { applyReviewAction, utf8ToBase64, base64ToUtf8 } from './review-logic.js
 const REPO = 'clarkfam5/song-list';
 const BRANCH = 'main';
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': 'https://clarkfam5.github.io',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, x-review-secret',
+};
+
 async function getFile(path, token) {
   const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
     headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'covers-worker' },
@@ -26,9 +32,10 @@ async function putFile(path, content, sha, token, message) {
 
 export default {
   async fetch(request, env) {
-    if (request.method !== 'POST') return new Response('Not found', { status: 404 });
+    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS_HEADERS });
+    if (request.method !== 'POST') return new Response('Not found', { status: 404, headers: CORS_HEADERS });
     if (request.headers.get('x-review-secret') !== env.REVIEW_SECRET) {
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 401, headers: CORS_HEADERS });
     }
     const action = await request.json();
 
@@ -37,13 +44,18 @@ export default {
       getFile('data/pending.json', env.GITHUB_TOKEN),
     ]);
 
-    const { covers, pending } = applyReviewAction(coversFile.content, pendingFile.content, action);
+    let covers, pending;
+    try {
+      ({ covers, pending } = applyReviewAction(coversFile.content, pendingFile.content, action));
+    } catch (err) {
+      return new Response(err.message, { status: 400, headers: CORS_HEADERS });
+    }
 
     await Promise.all([
       putFile('data/covers.json', covers, coversFile.sha, env.GITHUB_TOKEN, `Publish review: ${action.id}`),
       putFile('data/pending.json', pending, pendingFile.sha, env.GITHUB_TOKEN, `Remove from pending: ${action.id}`),
     ]);
 
-    return new Response('OK');
+    return new Response('OK', { headers: CORS_HEADERS });
   },
 };

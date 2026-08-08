@@ -17,11 +17,17 @@ function escapeHtml(s) {
 }
 
 async function submitAction(action) {
-  const res = await fetch(WORKER_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-review-secret': getSecret() },
-    body: JSON.stringify(action),
-  });
+  let res;
+  try {
+    res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-review-secret': getSecret() },
+      body: JSON.stringify(action),
+    });
+  } catch (err) {
+    alert(`Could not reach the review server: ${err.message}`);
+    return;
+  }
   if (!res.ok) {
     if (res.status === 401) {
       localStorage.removeItem(SECRET_STORAGE_KEY);
