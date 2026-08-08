@@ -17,7 +17,9 @@
   <option value="title">Song title A-Z</option>
 </select>
 <div id="list"></div>
-<script src="assets/lib.js"></script>
-<script src="assets/app.js"></script>
+<script>
+  document.write('<script src="assets/lib.js?t=' + Date.now() + '"><\/script>');
+  document.write('<script src="assets/app.js?t=' + Date.now() + '"><\/script>');
+</script>
 </body>
 </html>
