@@ -30,13 +30,6 @@ def run(data_dir, backfill=False):
         save_json(pending_path, pending)
         save_json(state_path, {'processedIds': sorted(processed)})
 
-    # Note: the channel's flat video listing (used below to discover new
-    # videos cheaply) does not include view counts at all — only a
-    # per-video fetch does. View counts are therefore captured once, when
-    # a video is first added, via get_video_details() below, and are not
-    # refreshed afterward (refreshing all covers daily would mean one
-    # per-video network call per cover, which doesn't scale for a
-    # channel this size and isn't worth the rate-limit risk).
     flat_videos = list_channel_videos(CHANNEL_URL)
 
     for i, video in enumerate(flat_videos):
@@ -63,6 +56,21 @@ def run(data_dir, backfill=False):
             if i % CHECKPOINT_EVERY == 0:
                 checkpoint()
             time.sleep(1)
+
+    checkpoint()
+
+    # Refresh view counts for every existing cover so numbers don't go
+    # stale; the flat channel listing is unreliable for view_count, so
+    # this pays for one per-video fetch per cover, paced to be gentle
+    # on YouTube's rate limiting.
+    for i, cover in enumerate(covers):
+        try:
+            cover['views'] = get_video_details(cover['id'])['view_count']
+        except subprocess.CalledProcessError:
+            pass
+        if i % CHECKPOINT_EVERY == 0:
+            checkpoint()
+        time.sleep(1)
 
     checkpoint()
 

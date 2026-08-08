@@ -17,6 +17,7 @@ FLAT_VIDEOS = [
 ]
 
 DETAILS_BY_ID = {
+    'seen1': {'title': 'Old Cover', 'description': '', 'upload_date': '20200101', 'view_count': 1234},
     'new1': {'title': 'New Cover', 'description': '"A Song" by An Artist.',
              'upload_date': '20260101', 'view_count': 10},
     'new2': {'title': 'New Vlog', 'description': 'Just us hanging out today!',
@@ -46,13 +47,52 @@ class RunTest(unittest.TestCase):
             pending = json.load(open(os.path.join(tmp, 'pending.json')))
             state = json.load(open(os.path.join(tmp, 'state.json')))
 
-            # The flat channel listing has no view-count data, so existing
-            # covers must be left exactly as they were, not zeroed out.
-            self.assertEqual(covers[0]['views'], 1)
+            # Existing covers get their view count refreshed too, not left stale.
+            self.assertEqual(covers[0]['views'], 1234)
             self.assertEqual([c['id'] for c in covers if c['id'] != 'seen1'], ['new1'])
             self.assertEqual(covers[1]['views'], 10)  # from get_video_details
             self.assertEqual([p['id'] for p in pending], ['new2'])
             self.assertEqual(sorted(state['processedIds']), ['new1', 'new2', 'seen1'])
+
+    @patch('update.get_video_details')
+    @patch('update.list_channel_videos')
+    def test_refreshes_view_counts_for_existing_covers(self, mock_list, mock_details):
+        mock_list.return_value = []
+        mock_details.return_value = {'title': 'Old Cover', 'description': '',
+                                      'upload_date': '20200101', 'view_count': 4242}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, 'covers.json'), 'w') as f:
+                json.dump([{'id': 'seen1', 'song': 'Old', 'artist': 'X',
+                            'date': '2020-01-01', 'views': 1, 'thumbnail': '',
+                            'url': ''}], f)
+            with open(os.path.join(tmp, 'state.json'), 'w') as f:
+                json.dump({'processedIds': ['seen1']}, f)
+
+            run(data_dir=tmp)
+
+            covers = json.load(open(os.path.join(tmp, 'covers.json')))
+            self.assertEqual(covers[0]['views'], 4242)
+            mock_details.assert_called_once_with('seen1')
+
+    @patch('update.get_video_details')
+    @patch('update.list_channel_videos')
+    def test_refresh_keeps_existing_views_if_video_now_unavailable(self, mock_list, mock_details):
+        mock_list.return_value = []
+        mock_details.side_effect = subprocess.CalledProcessError(1, ['yt-dlp'])
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, 'covers.json'), 'w') as f:
+                json.dump([{'id': 'seen1', 'song': 'Old', 'artist': 'X',
+                            'date': '2020-01-01', 'views': 1, 'thumbnail': '',
+                            'url': ''}], f)
+            with open(os.path.join(tmp, 'state.json'), 'w') as f:
+                json.dump({'processedIds': ['seen1']}, f)
+
+            run(data_dir=tmp)
+
+            covers = json.load(open(os.path.join(tmp, 'covers.json')))
+            self.assertEqual(covers[0]['views'], 1)
 
     @patch('update.get_video_details')
     @patch('update.list_channel_videos')
