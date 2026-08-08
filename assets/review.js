@@ -69,4 +69,4 @@ function render(items) {
   }));
 }
 
-fetch('data/pending.json').then(r => r.json()).then(render);
+fetch('data/pending.json?t=' + Date.now()).then(r => r.json()).then(render);

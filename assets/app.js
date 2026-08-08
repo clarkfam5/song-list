@@ -23,7 +23,7 @@ function render() {
   `).join('');
 }
 
-fetch('data/covers.json')
+fetch('data/covers.json?t=' + Date.now())
   .then(r => r.json())
   .then(data => { covers = data; render(); });
 
